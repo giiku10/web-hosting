@@ -60,11 +60,11 @@
         //
         firebase.auth().onAuthStateChanged(user => { 
           if(user == null){
-            $("logout-btn").css('display', 'none');
-            $("login-btn").css('display', 'inline-block');
+            $("#logout-btn").css('display', 'none');
+            $("#login-btn").css('display', 'inline-block');
           } else{
-            $("login-btn").css('display', 'none');
-            $("logout-btn").css('display', 'inline-block');
+            $("#login-btn").css('display', 'none');
+            $("#logout-btn").css('display', 'inline-block');
             console.log(user);
           }
         });
@@ -99,6 +99,6 @@
         }
       });
     </script>
-    <script src="./src/js/login-out.js"
+    <script src="./src/js/login-out.js"></script>
   </body>
 </html>

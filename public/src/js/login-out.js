@@ -1,7 +1,10 @@
 function clickedLogin() {
-  console.log("login is clicked");
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider).then().catch((error) => {
+      console.log(`fail to sign in. ${error.message}`)
+  });
 }
 
 function clickedLogout() {
-  console.log("logout is clicked");
+  firebase.auth().signOut().then((result) => {});
 }
