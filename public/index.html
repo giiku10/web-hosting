@@ -22,6 +22,7 @@
       to avoid connecting the SDK to running emulators.
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <style media="screen">
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
@@ -40,6 +41,10 @@
   </head>
   <body>
     <div id="message">
+      <div class="login-logout">
+        <button id="login-btn" onclick="clickedLogin()">Login</button>
+        <button id="logout-btn" onclick="clickedLogout()" style="display: none;">Logout</button>
+      </div>
       <h2>Welcome</h2>
       <h1>Firebase Hosting Setup Complete</h1>
       <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
@@ -53,7 +58,16 @@
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
         //
-        // firebase.auth().onAuthStateChanged(user => { });
+        firebase.auth().onAuthStateChanged(user => { 
+          if(user == null){
+            $("#logout-btn").css('display', 'none');
+            $("#login-btn").css('display', 'inline-block');
+          } else{
+            $("#login-btn").css('display', 'none');
+            $("#logout-btn").css('display', 'inline-block');
+            console.log(user);
+          }
+        });
         // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
         // firebase.firestore().doc('/foo/bar').get().then(() => { });
         // firebase.functions().httpsCallable('yourFunction')().then(() => { });
@@ -85,5 +99,6 @@
         }
       });
     </script>
+    <script src="./src/js/login-out.js"></script>
   </body>
 </html>
