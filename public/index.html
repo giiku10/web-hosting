@@ -85,7 +85,7 @@
           console.error(e);
           loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
         }
-        const classId = getparam("class");
+        const classId = getParam("class");
         // $.post(apiUrl, {classId: classId}, function (data) {
         //   writePage(data);
         // });
@@ -103,13 +103,15 @@
         writePage(data);
       });
 
-      function getparam(name) {
-        const url = location.href
-        const regex = new RegExp("[?&]" + name + "(=(^&#)) | & | # | $");
-        const results = regex.exec(url);
-        if(!results) return null;
-        if(!results[2]) return "";
-        return decodeURIComponent(results[2].replace(/\+/g, ""));
+      function getParam(name) {
+        const params = $(location).attr("search");
+        var paramData = {}
+        for(let param of params.slice(1).split("&")){
+          let parameters = param.split("=");
+          paramData[parameters[0]] = parameters[1];
+        }
+        console.log(paramData);
+        return paramData[name];
       }
     </script>
     <script src="./src/js/login-out.js"></script>
