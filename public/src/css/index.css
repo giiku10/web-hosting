@@ -1,0 +1,25 @@
+.test{
+    background-color: aqua;
+}
+
+.test2{
+    background-color: blue;
+}
+
+/* ログインボタン */
+.loginbtn {
+    border: 2px solid #fff;
+    border-radius: 100vh;
+    background: #eb6100;
+    width: 10em;
+    height: 3em;
+  }
+
+  .loginbtn:hover {
+    color: #fff;
+    background: #000;
+  }
+
+  body{
+    background-color:rgb(243, 204, 157);
+  }
