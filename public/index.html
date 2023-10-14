@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <title>感想機</title>
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/10.4.0/firebase-app-compat.js"></script>
@@ -40,25 +40,24 @@
     </style>
   </head>
   <body>
-    <div id="message">
-      <div class="login-logout">
-        <button id="login-btn" onclick="clickedLogin()">Login</button>
-        <button id="logout-btn" onclick="clickedLogout()" style="display: none;">Logout</button>
-      </div>
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <div class="login-logout">
+      <button id="login-btn" onclick="clickedLogin()">Login</button>
+      <button id="logout-btn" onclick="clickedLogout()" style="display: none;">Logout</button>
     </div>
     <p id="load">Firebase SDK Loading&hellip;</p>
+    <div id="main"></div>
 
+    <script src="./src/js/view.js"></script>
+    <script src="./src/js/api.js"></script>
     <script>
+      const apiUrl = "http://localhost:8080";
+      // const apiUrl = "http://kansouki.yoshihiserver.com";
       document.addEventListener('DOMContentLoaded', function() {
         const loadEl = document.querySelector('#load');
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
         //
-        firebase.auth().onAuthStateChanged(user => { 
+        firebase.auth().onAuthStateChanged(user => {
           if(user == null){
             $("#logout-btn").css('display', 'none');
             $("#login-btn").css('display', 'inline-block');
@@ -97,7 +96,32 @@
           console.error(e);
           loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
         }
+        const classId = getparam("class");
+        // $.post(apiUrl, {classId: classId}, function (data) {
+        //   writePage(data);
+        // });
+        let data = {
+          id: 1,
+          name : "suugaku",
+          questions:[
+            {name: "daimon1", children: [
+              {name: "shoumon1", id: 3}
+            ],
+            id: 1
+          },
+            {name: "daimon2", id: 2}
+        ]};
+        writePage(data);
       });
+
+      function getparam(name) {
+        const url = location.href
+        const regex = new RegExp("[?&]" + name + "(=(^&#)) | & | # | $");
+        const results = regex.exec(url);
+        if(!results) return null;
+        if(!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, ""));
+      }
     </script>
     <script src="./src/js/login-out.js"></script>
   </body>
