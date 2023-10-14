@@ -41,6 +41,7 @@
     <script>
       const apiUrl = "http://localhost:8080";
       // const apiUrl = "http://kansouki.yoshihiserver.com";
+      const classId = getParam("class");
       document.addEventListener('DOMContentLoaded', function() {
         const loadEl = document.querySelector('#load');
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
@@ -85,10 +86,11 @@
           console.error(e);
           loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
         }
-        const classId = getParam("class");
-        // $.post(apiUrl, {classId: classId}, function (data) {
-        //   writePage(data);
-        // });
+        if(classId != "" && classId != null){
+          $.post(apiUrl, {classId: classId}, function (data) {
+            writePage(data);
+          });
+        }
         let data = {
           id: 1,
           name : "数学",
@@ -100,17 +102,18 @@
           },
             {name: "大問２", id: 2}
         ]};
-        writePage(data);
+        // writePage(data);
       });
 
       function getParam(name) {
         const params = $(location).attr("search");
         var paramData = {}
         for(let param of params.slice(1).split("&")){
-          let parameters = param.split("=");
-          paramData[parameters[0]] = parameters[1];
+          if(param != ""){
+            let parameters = param.split("=");
+            paramData[parameters[0]] = parameters[1];
+          }
         }
-        console.log(paramData);
         return paramData[name];
       }
     </script>
