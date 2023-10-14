@@ -8,9 +8,9 @@
 
 /* ログインボタン */
 .loginbtn {
-    border: 2px solid #fff;
+    border: 2px solid #000;
     border-radius: 100vh;
-    background: #eb6100;
+    background: #fff;
     width: 10em;
     height: 3em;
   }
@@ -20,6 +20,24 @@
     background: #000;
   }
 
+  /* webぺージの背景 */
   body{
-    background-color:rgb(243, 204, 157);
+    background-color:#eb6100
+  }
+
+  .main_daimei {
+    position: relative;
+    padding: 1rem .5rem;
+  }
+  
+  .main_daimei:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    content: '';
+    background-image: -webkit-gradient(linear, left top, right top, from(#fa709a), to(#fee140));
+    background-image: -webkit-linear-gradient(left, #fa709a 0%, #fee140 100%);
+    background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
   }

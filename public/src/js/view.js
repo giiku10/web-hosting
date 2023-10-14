@@ -2,7 +2,7 @@ var shownStatus = {};
 
 function writePage(data){
   $("#main").html("");
-  $("#main").append("<h1>" + data.name + "</h1>");
+  $("#main").append("<h1 class='main_daimei'>" + data.name + "</h1>");
   $("#main").append("<ul id='main-questions'></ul>");
   let id = "#main-questions"
   for(let question of data.questions){
