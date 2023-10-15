@@ -5,9 +5,8 @@ function writePage(data){
   $("#main").append("<h1 class='main_daimei'>" + data.name + "</h1>");
   $("#main").append("<ul id='main-questions'></ul>");
   let id = "#main-questions"
-  for(let question of data.questions){
-    let key = Object.keys(question)[0];
-    var questionData = question[key]
+  for(let key of sortedKeys(data.questions)){
+    var questionData = data.questions[key];
     questionData["id"] = key;
     writeQuestion(questionData, id);
   }
@@ -25,12 +24,16 @@ function writeQuestion(data, id){
     $(childId).append("<li><span class='question1' id='question-span-" + data.id + "' onclick='changeShownStatus(\"" + data.id + "\")'>" + data.name + "</span><ul id='question-ul-" + data.id + "' style='display:none'></ul><div id='question-div-" + data.id + "'></div></li>");
   }
   if(data.children){
-    childId = "#question-ul-" + data.id;
-    for(let question of data.children){
-      let key = Object.keys(question)[0];
-      var questionData = question[key]
-      questionData["id"] = key;
-      writeQuestion(questionData, childId);
+    if(Object.keys(data.children).length == 0){
+      childId = "#question-div-" + data.id;
+      $(childId).html("<input type='range' id='question-input-" + data.id + "' onchange='sendData(\"" + data.id + "\")'>");
+    }else{
+      childId = "#question-ul-" + data.id;
+      for(let key of sortedKeys(data.children)){
+        var questionData = data.children[key]
+        questionData["id"] = key;
+        writeQuestion(questionData, childId);
+      }
     }
   } else{
     childId = "#question-div-" + data.id;
@@ -46,4 +49,20 @@ function changeShownStatus(id){
     shownStatus[id] = true;
     $("#question-ul-" + id).css("display", "block");
   }
+}
+
+function sortedKeys(questions) {
+  var keys = Object.keys(questions);
+  for (var i = 0; i < keys.length - 1; i++){
+    for (let j = 0; j < keys.length - i - 1; j++) {
+      let key = keys[j];
+      let keyPlus = keys[j+1];
+      if( questions[key].name > questions[keyPlus].name ){
+        let keep = keys[j];
+        keys[j] = keys[j+1];
+        keys[j+1] = keep;
+      }
+    }
+  }
+  return keys;
 }

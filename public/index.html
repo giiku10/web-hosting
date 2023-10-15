@@ -41,6 +41,7 @@
     <script>
       const apiUrl = "http://localhost:8080";
       // const apiUrl = "http://kansouki.yoshihiserver.com";
+      const classId = getParam("class");
       document.addEventListener('DOMContentLoaded', function() {
         const loadEl = document.querySelector('#load');
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
@@ -56,6 +57,22 @@
             console.log(user);
           }
         });
+        if(classId != "" && classId != null){
+          // $.post(apiUrl, {classId: classId}, function (data) {
+          //   writePage(data);
+          // });
+          var classData = {}
+          console.log(classId);
+          const classDocRef = firebase.firestore().doc('Class/' + classId);
+          classDocRef.get().then((doc) => {
+            classData = doc.data();
+            classData.id = doc.id;
+            classData.children = {};
+          });
+          setTimeout(function(){
+            writePage(classData);
+          }, 3000);
+        }
         // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
         // firebase.firestore().doc('/foo/bar').get().then(() => { });
         // firebase.functions().httpsCallable('yourFunction')().then(() => { });
@@ -85,10 +102,6 @@
           console.error(e);
           loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
         }
-        const classId = getParam("class");
-        // $.post(apiUrl, {classId: classId}, function (data) {
-        //   writePage(data);
-        // });
         let data = {
           id: 1,
           name : "数学",
@@ -100,18 +113,32 @@
           },
             {name: "大問２", id: 2}
         ]};
-        writePage(data);
+        // writePage(data);
       });
 
       function getParam(name) {
         const params = $(location).attr("search");
         var paramData = {}
         for(let param of params.slice(1).split("&")){
-          let parameters = param.split("=");
-          paramData[parameters[0]] = parameters[1];
+          if(param != ""){
+            let parameters = param.split("=");
+            paramData[parameters[0]] = parameters[1];
+          }
         }
-        console.log(paramData);
         return paramData[name];
+      }
+
+      async function getChildData(parentId){
+        var retData = {};
+        let partDocRef = firebase.firestore().collection('Parts').where("parent", "==", parentId);
+        await partDocRef.get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            retData[doc.id] = doc.data();
+            retData[doc.id].children = getChildData(doc.id);
+          });
+        });
+        return retData;
       }
     </script>
     <script src="./src/js/login-out.js"></script>
