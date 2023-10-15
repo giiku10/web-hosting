@@ -7,13 +7,13 @@ function writePage(data){
   let id = "#main-questions"
   for(let key of sortedKeys(data.questions)){
     var questionData = data.questions[key];
-    questionData["id"] = key;
+    console.log(questionData);
     writeQuestion(questionData, id);
   }
 }
 
 function writeQuestion(data, id){
-  $(id).append("<ul id='questions-" + data.id + "'></ul>");
+  $(id).append("<div id='questions-" + data.id + "'></div>");
   var childId = "#questions-" + data.id;
   if(shownStatus[data.id] == null){
     $(childId).append("<li><span class='question1' id='question-span-" + data.id + "' onclick='changeShownStatus(\"" + data.id + "\")'>" + data.name + "</span><ul id='question-ul-" + data.id + "' style='display:none'></ul><div id='question-div-" + data.id + "'></div></li>");
@@ -30,8 +30,7 @@ function writeQuestion(data, id){
     }else{
       childId = "#question-ul-" + data.id;
       for(let key of sortedKeys(data.children)){
-        var questionData = data.children[key]
-        questionData["id"] = key;
+        var questionData = data.children[key];
         writeQuestion(questionData, childId);
       }
     }
