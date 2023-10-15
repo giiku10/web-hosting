@@ -58,20 +58,10 @@
           }
         });
         if(classId != "" && classId != null){
-          // $.post(apiUrl, {classId: classId}, function (data) {
-          //   writePage(data);
-          // });
-          var classData = {}
-          console.log(classId);
-          const classDocRef = firebase.firestore().doc('Class/' + classId);
-          classDocRef.get().then((doc) => {
-            classData = doc.data();
-            classData.id = doc.id;
-            classData.children = {};
+          $.post(apiUrl + "/class", {classId: classId}, function (data) {
+            console.log(data);
+            writePage(data);
           });
-          setTimeout(function(){
-            writePage(classData);
-          }, 3000);
         }
         // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
         // firebase.firestore().doc('/foo/bar').get().then(() => { });
@@ -102,17 +92,17 @@
           console.error(e);
           loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
         }
-        let data = {
-          id: 1,
-          name : "数学",
-          questions:[
-            {name: "大問１", children: [
-              {name: "小問➀", id: 3}
-            ],
-            id: 1
-          },
-            {name: "大問２", id: 2}
-        ]};
+        // let data = {
+        //   id: 1,
+        //   name : "数学",
+        //   questions:[
+        //     {name: "大問１", children: [
+        //       {name: "小問➀", id: 3}
+        //     ],
+        //     id: 1
+        //   },
+        //     {name: "大問２", id: 2}
+        // ]};
         // writePage(data);
       });
 
