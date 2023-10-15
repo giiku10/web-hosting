@@ -23,14 +23,14 @@ function writeQuestion(data, id){
   } else{
     $(childId).append("<li><span class='question1' id='question-span-" + data.id + "' onclick='changeShownStatus(\"" + data.id + "\")'>" + data.name + "</span><ul id='question-ul-" + data.id + "' style='display:none'></ul><div id='question-div-" + data.id + "'></div></li>");
   }
-  if(data.children){
-    if(Object.keys(data.children).length == 0){
+  if(data.questions){
+    if(Object.keys(data.questions).length == 0){
       childId = "#question-div-" + data.id;
-      $(childId).html("<input type='range' id='question-input-" + data.id + "' onchange='sendData(\"" + data.id + "\")'>");
+      $(childId).html("<div class='understand'>理解度メーター </div><big>😱</big></h1><input class='meta' type='range' id='question-input-" + data.id + "' onchange='sendData(\"" + data.id + "\")'><big>😊</big>");
     }else{
       childId = "#question-ul-" + data.id;
-      for(let key of sortedKeys(data.children)){
-        var questionData = data.children[key];
+      for(let key of sortedKeys(data.questions)){
+        var questionData = data.questions[key];
         writeQuestion(questionData, childId);
       }
     }

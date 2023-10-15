@@ -42,6 +42,7 @@
       const apiUrl = "http://localhost:8080";
       // const apiUrl = "http://kansouki.yoshihiserver.com";
       const classId = getParam("class");
+      var tokenId = "";
       document.addEventListener('DOMContentLoaded', function() {
         const loadEl = document.querySelector('#load');
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
@@ -60,6 +61,7 @@
         if(classId != "" && classId != null){
           $.post(apiUrl + "/class", {classId: classId}, function (data) {
             console.log(data);
+            tokenId = data.tokenId;
             writePage(data);
           });
         }
